@@ -7,7 +7,10 @@ WORKDIR /app
 # Copia todos los archivos del proyecto a la imagen
 COPY . /app
 
-# Instala dependencias si tienes un requirements.txt
+# Otorga permisos correctos
+RUN chmod -R 777 /app
+
+# Instala dependencias
 RUN pip install -r requirements.txt || true
 
 # Entrena el modelo
