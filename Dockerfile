@@ -11,8 +11,8 @@ COPY . /app
 # Instala dependencias
 RUN pip install -r requirements.txt || true
 
-# Entrena el modelo
-RUN rasa train --no-warnings
+# Entrena el modelo 
+RUN rasa train --no-warnings   --fixed-model-name model
 
 # Comando para ejecutar Rasa en modo API
 CMD ["rasa", "run", "--enable-api", "--cors", "*", "--debug"]
