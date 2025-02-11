@@ -1,18 +1,20 @@
-# Usa la imagen oficial de Rasa
+# Usa la imagen base de Rasa
 FROM rasa/rasa:latest
 
-# Define el directorio de trabajo
+# Configura el directorio de trabajo
 WORKDIR /app
 
-# Copia todos los archivos del proyecto a la imagen
+# Copia todos los archivos del repositorio a /app
 COPY . /app
 
+# Otorga permisos adecuados a la carpeta de trabajo (si es necesario)
+RUN chmod -R 777 /app || true
 
-# Instala dependencias
-RUN pip install --user -r requirements.txt
+# Instala las dependencias sin `--user`
+RUN pip install -r requirements.txt
 
-# Entrena el modelo 
-RUN rasa train --fixed-model-name model
+# Entrena el modelo (opcional, puedes omitirlo si ya tienes uno)
+RUN rasa train --fixed-model-name model || true
 
-# Comando para ejecutar Rasa en modo API
-CMD ["rasa", "run", "--enable-api", "--cors", "*", "--debug"]
+# Ejecuta el bot con el modelo entrenado
+CMD ["rasa", "run", "--enable-api", "--cors", "*", "--model", "models"]
